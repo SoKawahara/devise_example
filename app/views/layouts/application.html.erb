@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= content_for(:title) || "Tasks App" %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= yield :head %>
+
+    <link rel="manifest" href="/manifest.json">
+    <link rel="icon" href="/icon.png" type="image/png">
+    <link rel="icon" href="/icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/icon.png">
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <body>
+    <header>
+      <% if user_signed_in? %>
+        <p><%= link_to 'ログアウト' , destroy_user_session_path , data: { "turbo-method": :delete }  %></p>
+        <p><%= link_to 'アカウントを削除する' , "/users" , data: { "turbo-method": :delete , "turbo-confirm": "本当に削除しますか?"} %></p>
+      <% else %>
+        <p><%= link_to 'ログイン' , new_user_session_path %></p>
+        <p><%= link_to 'サインアップ' , new_user_registration_path %></p>
+      <% end %>
+    </header>
+    <p class="notice"><%= notice %></p>
+    <p class = "alert"><%= alert %></p>
+    <%= yield %>
+  </body>
+</html>
